@@ -7,7 +7,7 @@ Calvin Figuereo-Supraner, ECE 4802 11/1/16
 > The following ciphertext has been encoded with a shift cipher:
 >
 > ```
-> AOLLULTFRUVDZAOLZFZALT.
+> AOLLULTFRUVDZAOLZFZALT
 > ```
 
 ### 1a
@@ -162,7 +162,7 @@ IF YOU DID NOT TWINKLE SO
 ## Problem 3
 
 > Vigenere proposed a stronger cipher than the Vigenere cipher. This cipher is
-> an autokey cipher, where the plaintext itself is used as key. It works by
+> an autokey cipher, where the plaintext itself is used as a key. It works by
 > starting with a keyword, and using plaintext characters after that.
 >
 > ```
@@ -185,6 +185,40 @@ IF YOU DID NOT TWINKLE SO
 
 > Provide an implementation of this cipher. You may either use Python or sage,
 > another common programming language, such as C.
+
+The following implementation is in Python.
+
+```python
+from itertools import chain
+
+ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+
+def alphabet_add(x, y):
+    return ALPHABET[(ALPHABET.index(x) + ALPHABET.index(y)) % 26]
+
+def alphabet_sub(x, y):
+    return ALPHABET[(ALPHABET.index(x) - ALPHABET.index(y)) % 26]
+
+def gen(kw, pt):
+    return chain(kw, pt)
+
+def enc(kw, pt):
+    ct = []
+    k = gen(kw, pt)
+    for pt_char, k_char in zip(pt, k):
+        ct.append(alphabet_add(pt_char, k_char))
+    return ''.join(ct)
+
+def dec(kw, ct):
+    pt = []
+    k = gen(kw, pt)
+    for ct_char, k_char in zip(ct, k):
+        pt.append(alphabet_sub(ct_char, k_char))
+    return ''.join(pt)
+
+print(enc('WPI', 'LEHRUNDKUNST'))
+print(dec('WPI', 'HTPCYUUEHQCN'))
+```
 
 ### 1d
 
