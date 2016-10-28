@@ -31,30 +31,14 @@ letters J, K, and X are unused.
 ### Part 2b
 
 The script `q2.rb` then replaces the characters by letter frequency. The
-letters J, K, and X are placed on the end.
-
-```ruby
-ct_freq = 'ENFPGIBVWMLQAYCTHRSUOZDJKX'
-en_freq = 'ETAOINSHRDLCUMWFGYPBVKJXQZ' # via wikipedia
-puts ct.tr(ct_freq, en_freq)
-```
-
-This outputs:
+letters J, K, and X are placed on the end, since they are unused. This outputs:
 
 ```
 THNAUSE THNAUSE SNTTSE DTRL ...
 ```
 
 This is still unsolved, but could be `TWINKLE TWINKLE LITTLE STAR`. The script
-`q2.rb` then replaces letters under that assumption.
-
-```ruby
-ct_alph = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-pt_alph = 'KLDMENOPI**RSTBHUCFGVWA*YZ'
-puts ct.tr(ct_alph, pt_alph)
-```
-
-The output reads:
+`q2.rb` then replaces letters under that assumption. The output reads:
 
 ```
 TWINKLE TWINKLE LITTLE STAR
@@ -92,25 +76,11 @@ Twinkle, twinkle, little star.
 Problem 3
 -------------------------------------------------------------------------------
 
-> Vigenere proposed a stronger cipher than the Vigenere cipher. This cipher is
-> an autokey cipher, where the plaintext itself is used as a key. It works by
-> starting with a keyword, and using plaintext characters after that.
->
-> ```
-> plaintext     l e h r u n d k u n s t
-> key           w p i l e h r u n d k u
-> ciphertext    H T P C Y U U E H Q C N
-> ```
-
-### Part 3a
-
-> Check the above example.
-
 ### Part 3b
 
-> Provide a formal definition of the `Gen`, `Enc`, and `Dec` algorithms for
-> this cipher. Make sure to include the equation that defines the encryption
-> and decryption operations.
+- Gen(kw, pt) outputs a keystream containing the keyword and plaintext.
+- Enc(kw, pt) encrypts a message `pt` using the keyword `kw`; (p + k) % 26
+- Dec(kw, ct) decrypts a message `ct` using the keyword `kw`; (c - k) % 26
 
 ### Part 3c
 
