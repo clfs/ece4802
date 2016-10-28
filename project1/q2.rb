@@ -15,22 +15,17 @@ PE RGQBC FGN MEE VPIRP VWY NG TG
 IS YGQ CIC FGN NVIFABE MG
 }
 
-# create hash
-h = Hash[('A'..'Z').to_a.product([0])]
-# fill hash
-ct.scan(/\w/).join.each_char{|c| h[c] += 1}
-# print the sorted hash
-puts h.sort_by{|k,v| v}.reverse.to_h
+# Part A
 
-=begin
+h = Hash.new(0)                         # create hash
+ct.scan(/\w/).each{|c| h[c] += 1}       # fill hash; letters only
+puts h.sort_by{|k,v| v}.reverse.to_h    # sort, print hash
 
-ct_f = 'ENFPIGBVWMLQAYCTHUSROZDXKJ' # code above
-en_f = 'ETAOINSHRDLCUMWFGYPBVKJXQZ' # wikipedia
+# Part B
 
-# this doesn't work, so we need some fixes
-puts ct.tr(ct_f, en_f)
-
-# RITTRE is probably LITTLE, and the word length tips us off:
+ct_freq = 'ENFPGIBVWMLQAYCTHRSUOZDJKX'
+en_freq = 'ETAOINSHRDLCUMWFGYPBVKJXQZ' # via wikipedia
+puts ct.tr(ct_freq, en_freq)
 
 # NVIFABE NVIFABE BINNBE MNWL
 # TWINKLE TWINKLE LITTLE STAR
@@ -38,15 +33,6 @@ puts ct.tr(ct_f, en_f)
 # PGV I VGFCEL VPWN YGQ WLE
 # HOW I WONDER WHAT YOU ARE
 
-alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-key      = 'KLD*ENO*I**RST*HU****WA*Y*'
-
-# Still missing some, but we can fill in:
-puts ct.tr(alphabet, key)
-
-alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-key      = 'KLDMENOPI**RSTBHUCFGVWA*YZ'
-
-puts ct.tr(alphabet, key)
-
-=end
+ct_alph = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+pt_alph = 'KLDMENOPI**RSTBHUCFGVWA*YZ'
+puts ct.tr(ct_alph, pt_alph)
