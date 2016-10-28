@@ -23,17 +23,15 @@ The Ruby script below uses brute force to test all 26 keys.
 m = 'AOLLULTFRUVDZAOLZFZALT'
 a = *('A'..'Z')
 for k in 0..25
-    puts a[k], m.tr(a.join, a.rotate(k).join)
+    puts k, m.tr(a.join, a.rotate(k).join)
 end
 ```
 
-The output gives the key and plaintext.
+The output eventually gives the key and plaintext.
 
 ```
-...
-T
+19
 THEENEMYKNOWSTHESYSTEM
-...
 ```
 
 Problem 2
@@ -54,7 +52,7 @@ Problem 2
 > VPEF PE FGNPIFT MPIFEM QHGF
 > NPEF YGQ MPGV YGQL BINNBE BITPN
 > NVIFABE NVIFABE WBB NPE FITPN
-
+>
 > NPEF NPE NLWUEBEL IF NPE CWLA
 > NPWFAM YGQ SGL YGQL NIFY MHWLA
 > PE RGQBC FGN MEE VPIRP VWY NG TG
@@ -252,8 +250,6 @@ LEHRUNDKUNST
 > CZGHCQRKSRJRIWXTDYFCFWYQ
 > ```
 
-Verification:
-
 ```
 > dec('PLATO', 'CZGHCQRKSRJRIWXTDYFCFWYQ')
 NOGOODDEEDGOESUNPUNISHED
@@ -261,7 +257,7 @@ NOGOODDEEDGOESUNPUNISHED
 
 Problem 4
 -------------------------------------------------------------------------------
-test
+
 > Another autokey cipher by Vigenere uses the letters of the ciphertext instead
 > of the plaintext to form new key letters:
 >
