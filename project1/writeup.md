@@ -10,7 +10,7 @@ Calvin Figuereo-Supraner, ECE 4802 11/1/16
 > AOLLULTFRUVDZAOLZFZALT
 > ```
 
-### 1a
+### Part 1a
 
 > Perform an attack against the cipher using one of the attacks discussed in
 > class. What is the key? What is the plaintext?
@@ -58,7 +58,7 @@ THEENEMYKNOWSTHESYSTEM
 > IS YGQ CIC FGN NVIFABE MG
 > ```
 
-### 2a
+### Part 2a
 
 > Provide the relative frequency of all letters A...Z in the ciphertext.
 
@@ -78,15 +78,15 @@ puts h.sort_by{|k,v| v}.reverse.to_h    # sort, print hash
 ```
 
 The output gives the ciphertext character frequencies, from greatest to least,
-as "ENFPGIBVWMLQAYCTHRSUOZD", with J, K, and X missing.
+as `ENFPGIBVWMLQAYCTHRSUOZD`, with J, K, and X missing.
 
 ```
-{"E"=>29, "N"=>28, "F"=>25, "P"=>24, "G"=>23, "I"=>23, "B"=>17, "V"=>14, "W"=>1
-3, "M"=>12, "L"=>11, "Q"=>10, "A"=>10, "Y"=>9, "C"=>8, "T"=>7, "H"=>3, "R"=>2, 
-"S"=>2, "U"=>2, "O"=>2, "Z"=>1, "D"=>1}
+{"E"=>29, "N"=>28, "F"=>25, "P"=>24, "G"=>23, "I"=>23, "B"=>17, "V"=>14,
+"W"=>13, "M"=>12, "L"=>11, "Q"=>10, "A"=>10, "Y"=>9, "C"=>8, "T"=>7, "H"=>3,
+"R"=>2, "S"=>2, "U"=>2, "O"=>2, "Z"=>1, "D"=>1}
 ```
 
-### 2b
+### Part 2b
 
 > Decrypt the ciphertext with help of the relative letter frequency of the
 > English language (e.g., search Wikipedia for letter frequency analysis). Note
@@ -155,7 +155,7 @@ HE COULD NOT SEE WHICH WAY TO GO
 IF YOU DID NOT TWINKLE SO
 ```
 
-### 2c
+### Part 2c
 
 > Who wrote the text? What are the missing words?
 
@@ -171,17 +171,17 @@ IF YOU DID NOT TWINKLE SO
 > ciphertext    H T P C Y U U E H Q C N
 > ```
 
-### 1a
+### Part 3a
 
 > Check the above example.
 
-### 1b
+### Part 3b
 
 > Provide a formal definition of the `Gen`, `Enc`, and `Dec` algorithms for
 > this cipher. Make sure to include the equation that defines the encryption
 > and decryption operations.
 
-### 1c
+### Part 3c
 
 > Provide an implementation of this cipher. You may either use Python or sage,
 > another common programming language, such as C.
@@ -220,13 +220,27 @@ print(enc('WPI', 'LEHRUNDKUNST'))
 print(dec('WPI', 'HTPCYUUEHQCN'))
 ```
 
-### 1d
+As verification, this outputs:
+
+```
+HTPCYUUEHQCN
+LEHRUNDKUNST
+```
+
+### Part 3d
 
 > Decrypt the following ciphertext using the key `plato`:
 >
 > ```
 > CZGHCQRKSRJRIWXTDYFCFWYQ
 > ```
+
+Via Python REPL:
+
+```
+> dec('PLATO', 'CZGHCQRKSRJRIWXTDYFCFWYQ')
+NOGOODDEEDGOESUNPUNISHED
+```
 
 ## Problem 4
 
@@ -239,12 +253,12 @@ print(dec('WPI', 'HTPCYUUEHQCN'))
 > ciphertext    H T P Y N C B X W O P P
 > ```
 
-### 4a
+### Part 4a
 
 > Show that this is a much weaker cipher than the other: Explain a brute force
 > attack that can recover most of the plaintext quickly.
 
-### 4b
+### Part 4b
 
 > Decrypt the following ciphertext that has been encrypted with the above
 > method. It is ok to miss the first few letters.
