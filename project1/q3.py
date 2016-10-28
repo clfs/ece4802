@@ -24,7 +24,3 @@ def dec(kw, ct):
     for ct_char, k_char in zip(ct, k):
         pt.append(alphabet_sub(ct_char, k_char))
     return ''.join(pt)
-
-print(enc('WPI', 'LEHRUNDKUNST'))
-print(dec('WPI', 'HTPCYUUEHQCN'))
-print(dec('PLATO', 'CZGHCQRKSRJRIWXTDYFCFWYQ'))

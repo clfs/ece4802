@@ -93,10 +93,10 @@ as `ENFPGIBVWMLQAYCTHRSUOZD`, with J, K, and X missing.
 > that the text is relatively short and might not completely fulfill the given
 > frequencies from the table.
 
-First, try replacing the characters by letter frequency only. Place J, K, and X
-at the end, since they're unused. The code below is Ruby.
+First, try replacing the characters by letter frequency. Place J, K, and X at
+the end, since they're unused. The code below is Ruby.
 
-```
+```ruby
 ct_freq = 'ENFPGIBVWMLQAYCTHRSUOZDJKX'
 en_freq = 'ETAOINSHRDLCUMWFGYPBVKJXQZ' # via wikipedia
 puts ct.tr(ct_freq, en_freq)
@@ -130,7 +130,7 @@ word lengths confirm this.
 
 The solution is given by:
 
-```
+```ruby
 ct_alph = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 pt_alph = 'KLDMENOPI**RSTBHUCFGVWA*YZ'
 puts ct.tr(ct_alph, pt_alph)
@@ -158,6 +158,20 @@ IF YOU DID NOT TWINKLE SO
 ### Part 2c
 
 > Who wrote the text? What are the missing words?
+
+The text is from a poem by Jane Taylor, and the missing words are below.
+
+```
+In the dark blue sky you keep,
+And often through my curtains peep,
+For you never shut your eye
+Till the sun is in the sky.
+
+As your bright and tiny spark
+Lights the traveller in the dark,
+Though I know not what you are,
+Twinkle, twinkle, little star.
+```
 
 ## Problem 3
 
@@ -215,15 +229,14 @@ def dec(kw, ct):
     for ct_char, k_char in zip(ct, k):
         pt.append(alphabet_sub(ct_char, k_char))
     return ''.join(pt)
-
-print(enc('WPI', 'LEHRUNDKUNST'))
-print(dec('WPI', 'HTPCYUUEHQCN'))
 ```
 
 As verification, this outputs:
 
 ```
+> enc('WPI', 'LEHRUNDKUNST')
 HTPCYUUEHQCN
+> dec('WPI', 'HTPCYUUEHQCN')
 LEHRUNDKUNST
 ```
 
@@ -235,7 +248,7 @@ LEHRUNDKUNST
 > CZGHCQRKSRJRIWXTDYFCFWYQ
 > ```
 
-Via Python REPL:
+Verification:
 
 ```
 > dec('PLATO', 'CZGHCQRKSRJRIWXTDYFCFWYQ')
