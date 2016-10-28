@@ -1,8 +1,10 @@
-# Project 1
+Project 1
+===============================================================================
 
-Calvin Figuereo-Supraner, ECE 4802 11/1/16
+Calvin Figuereo-Supraner, ECE 4802, 11/1/16
 
-## Problem 1
+Problem 1
+-------------------------------------------------------------------------------
 
 > The following ciphertext has been encoded with a shift cipher:
 >
@@ -34,7 +36,8 @@ THEENEMYKNOWSTHESYSTEM
 ...
 ```
 
-## Problem 2
+Problem 2
+-------------------------------------------------------------------------------
 
 > The ciphertext printed below was encrypted using a substitution cipher. The
 > objective is to decrypt the ciphertext without knowledge of the key.
@@ -173,7 +176,8 @@ Though I know not what you are,
 Twinkle, twinkle, little star.
 ```
 
-## Problem 3
+Problem 3
+-------------------------------------------------------------------------------
 
 > Vigenere proposed a stronger cipher than the Vigenere cipher. This cipher is
 > an autokey cipher, where the plaintext itself is used as a key. It works by
@@ -255,7 +259,8 @@ Verification:
 NOGOODDEEDGOESUNPUNISHED
 ```
 
-## Problem 4
+Problem 4
+-------------------------------------------------------------------------------
 
 > Another autokey cipher by Vigenere uses the letters of the ciphertext instead
 > of the plaintext to form new key letters:
