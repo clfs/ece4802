@@ -19,11 +19,8 @@ Problem 2
 
 ### Part 2a
 
-> Provide the relative frequency of all letters A...Z in the ciphertext.
-
 The script `q2.rb` prints a sorted hash of letter counts in the ciphertext. The
-ciphertext character frequencies, from greatest to least, as
-`ENFPGIBVWMLQAYCTHRSUOZD`, with J, K, and X missing.
+letters J, K, and X are unused.
 
 ```
 {"E"=>29, "N"=>28, "F"=>25, "P"=>24, "G"=>23, "I"=>23, "B"=>17, "V"=>14,
@@ -33,8 +30,8 @@ ciphertext character frequencies, from greatest to least, as
 
 ### Part 2b
 
-The script `q2.rb` first replaces the characters by letter frequency. The
-letters J, K, and X are at the end, since they're unused.
+The script `q2.rb` then replaces the characters by letter frequency. The
+letters J, K, and X are placed on the end.
 
 ```ruby
 ct_freq = 'ENFPGIBVWMLQAYCTHRSUOZDJKX'
@@ -45,30 +42,11 @@ puts ct.tr(ct_freq, en_freq)
 This outputs:
 
 ```
-THNAUSE THNAUSE SNTTSE DTRL
-OIH N HIAWEL HORT MIC RLE
-CG RVIBE TOE HILSW DI ONFO
-SNUE R WNRJIAW NA TOE DUM
-
-HOEA TOE VSRKNAF DCA ND FIAE
-HOEA OE AITONAF DONAED CGIA
-TOEA MIC DOIH MICL SNTTSE SNFOT
-THNAUSE THNAUSE RSS TOE ANFOT
-
-TOEA TOE TLRBESEL NA TOE WRLU 
-TORAUD MIC PIL MICL TNAM DGRLU
-OE YICSW AIT DEE HONYO HRM TI FI
-NP MIC WNW AIT THNAUSE DI
+THNAUSE THNAUSE SNTTSE DTRL ...
 ```
 
-This is still unsolved. First, note that `N` (line 2, word 2) should have been
-a single letter word, such as `I` or `A`. If we assume `N` here is `I`, then
-`SNTTSE` (line 1, word 3) becomes `SITTSE`. This is nearly the word `LITTLE`,
-so assume `S` here is actually `L`. The first two words of the ciphertext are
-identical, so a possible plaintext is `TWINKLE TWINKLE LITTLE STAR`, and the
-word lengths confirm this.
-
-The script `q2.rb` then gives the full solution.
+This is still unsolved, but could be `TWINKLE TWINKLE LITTLE STAR`. The script
+`q2.rb` then replaces letters under that assumption.
 
 ```ruby
 ct_alph = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
