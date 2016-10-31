@@ -1,0 +1,99 @@
+\documentclass[letterpaper, 12pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{fancyvrb}
+\usepackage{amsmath}
+
+\title{ECE 4802, Project 1}
+\author{Calvin Figuereo-Supraner}
+\date{November 1 2016}
+
+\begin{document}
+
+\maketitle
+All scripts are run as \texttt{./q1.rb}, \texttt{./q2.rb}, etc.
+\newpage
+
+\section*{Problem 1}
+\subsection*{1a}
+The script \texttt{q1.rb}  uses brute force to test all 26 keys. The output eventually gives the key and plaintext.
+\begin{Verbatim}[frame=single]
+19
+THEENEMYKNOWSTHESYSTEM
+\end{Verbatim}
+
+\section*{Problem 2}
+\subsection*{2a}
+The script \texttt{q2.rb} prints a sorted hash of letter counts in the ciphertext. The letters J, K, and X do not appear.
+\begin{Verbatim}[frame=single]
+{"E"=>29, "N"=>28, "F"=>25, "P"=>24, "G"=>23, "I"=>23, "B"=>17, "V"=>14,
+"W"=>13, "M"=>12, "L"=>11, "Q"=>10, "A"=>10, "Y"=>9, "C"=>8, "T"=>7,
+"H"=>3, "R"=>2, "S"=>2, "U"=>2, "O"=>2, "Z"=>1, "D"=>1}
+\end{Verbatim}
+
+\subsection*{2b}
+The script \texttt{q2.rb} then replaces the characters by letter frequency. This outputs:
+\begin{Verbatim}[frame=single]
+THNAUSE THNAUSE SNTTSE DTRL ...
+\end{Verbatim}
+
+This is still unsolved, but could be \texttt{TWINKLE TWINKLE LITTLE STAR}. The script \texttt{q2.rb} then replaces letters under that assumption. The output reads:
+\begin{Verbatim}[frame=single]
+TWINKLE TWINKLE LITTLE STAR
+HOW I WONDER WHAT YOU ARE
+UP ABOVE THE WORLD SO HIGH
+LIKE A DIAMOND IN THE SKY
+
+WHEN THE BLAZING SUN IS GONE
+WHEN HE NOTHING SHINES UPON
+THEN YOU SHOW YOUR LITTLE LIGHT
+TWINKLE TWINKLE ALL THE NIGHT
+
+THEN THE TRAVELER IN THE DARK 
+THANKS YOU FOR YOUR TINY SPARK
+HE COULD NOT SEE WHICH WAY TO GO
+IF YOU DID NOT TWINKLE SO
+\end{Verbatim}
+
+\subsection*{2c}
+The text is from a poem by Jane Taylor, and the missing words are below.
+\begin{Verbatim}[frame=single]
+In the dark blue sky you keep,
+And often through my curtains peep,
+For you never shut your eye
+Till the sun is in the sky.
+
+As your bright and tiny spark
+Lights the traveller in the dark,
+Though I know not what you are,
+Twinkle, twinkle, little star.
+\end{Verbatim}
+
+\section*{Problem 3}
+\subsection*{3b}
+\begin{itemize}
+	\item Gen\((kw, pt)\) outputs the keyword and plaintext, concatenated and truncated.
+	\item Enc\((kw, pt) = (pt_i + k_i)\pmod{26}\) for each \(i\).
+	\item Dec\((kw, ct) = (ct_i - k_i)\pmod{26}\) for each \(i\).
+\end{itemize}
+
+\subsection*{3c}
+The script \texttt{q3.py} implements the autokey cipher.
+
+\subsection*{3d}
+The ciphertext decrypts to:
+\begin{Verbatim}[frame=single]
+NOGOODDEEDGOESUNPUNISHED
+\end{Verbatim}
+
+\section*{Problem 4}
+\subsection*{4a}
+If the ciphertext is known, a large part of the key is known. Brute-force the cipher using keys that are shifted versions of the ciphertext.
+
+\subsection*{4b}
+The script \texttt{q4.py} will eventually output a possible plaintext, via the attack above.
+\begin{Verbatim}[frame=single]
+NEASJSENDTHEMONEYTHISAFTERNOON
+\end{Verbatim}
+
+\end{document}
