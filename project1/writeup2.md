@@ -78,9 +78,9 @@ Problem 3
 
 ### Part 3b
 
-- Gen(kw, pt) outputs a keystream containing the keyword and plaintext.
-- Enc(kw, pt) encrypts a message `pt` using the keyword `kw`; (p + k) % 26
-- Dec(kw, ct) decrypts a message `ct` using the keyword `kw`; (c - k) % 26
+- Gen(kw, pt) outputs an iterator over the keyword and plaintext.
+- Enc(kw, pt) = (pt\_i + k\_i) % 26
+- Dec(kw, ct) = (ct\_i - k\_i) % 26
 
 ### Part 3c
 
@@ -103,26 +103,18 @@ NOGOODDEEDGOESUNPUNISHED
 Problem 4
 -------------------------------------------------------------------------------
 
-> Another autokey cipher by Vigenere uses the letters of the ciphertext instead
-> of the plaintext to form new key letters:
->
-> ```
-> plaintext     l e h r u n d k u n s t
-> key           w p i h t p y n c b x w
-> ciphertext    H T P Y N C B X W O P P
-> ```
-
 ### Part 4a
 
-> Show that this is a much weaker cipher than the other: Explain a brute force
-> attack that can recover most of the plaintext quickly.
+If the cipher text is known, a large part of the key is known. An effective
+brute force algorithm is to decrypt the ciphertext against shifted versions of 
+itself.
 
 ### Part 4b
 
-> Decrypt the following ciphertext that has been encrypted with the above
-> method. It is ok to miss the first few letters.
+The script `q4.py` will eventually outputs a possible plaintext.
 
 ```
-NEASJFINVCMMZJPQKSQXIKXJBZXLXO
+> break_autokey2('NEASJFINVCMMZJPQKSQXIKXJBZXLXO')
+NEASJSENDTHEMONEYTHISAFTERNOON
 ```
 
