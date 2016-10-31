@@ -1,7 +1,10 @@
 #!/usr/bin/env ruby
 
-pt = 'AOLLULTFRUVDZAOLZFZALT'
-alphabet = *('A'..'Z')
-for key in 0..25
-    puts key, pt.tr(alphabet.join, alphabet.rotate(key).join)
+def break_caesar(pt)
+    alphabet = *('A'..'Z')
+    for k in 0..25
+        puts k, pt.tr(alphabet.join, alphabet.rotate(k).join)
+    end
 end
+
+break_caesar('AOLLULTFRUVDZAOLZFZALT')
