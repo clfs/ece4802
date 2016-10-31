@@ -1,7 +1,7 @@
-Project 1
+Project 1, ECE 4802
 ===============================================================================
 
-Calvin Figuereo-Supraner, ECE 4802, 11/1/16
+Calvin Figuereo-Supraner, submitted 11/1/16
 
 Problem 1
 -------------------------------------------------------------------------------
@@ -79,8 +79,8 @@ Problem 3
 ### Part 3b
 
 - Gen(kw, pt) outputs an iterator over the keyword and plaintext.
-- Enc(kw, pt) = (pt\_i + k\_i) % 26
-- Dec(kw, ct) = (ct\_i - k\_i) % 26
+- Enc(kw, pt) = (pt + k) % 26, character by character.
+- Dec(kw, ct) = (ct - k) % 26, character by character.
 
 ### Part 3c
 
