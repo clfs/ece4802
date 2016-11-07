@@ -1,18 +1,29 @@
 #!/usr/bin/env python3
 
 from Crypto.Cipher import DES
+from joblib import Parallel, delayed  
 import binascii
 import struct
 
 pt = binascii.unhexlify('48656c6c6f212121')
-ct = binascii.unhexlify('d52bd481f21e25a1')
+#ct = binascii.unhexlify('d52bd481f21e25a1')
+mykey = 0xee
+ct = DES.new(struct.pack('>Q', mykey), DES.MODE_ECB).encrypt(pt)
 
-print(pt)
-print(ct)
+keyspace = 1 << 32
+cpus = 8
+block_size = int(keyspace/cpus)
 
-upper_bound = 0x0000000100000000
+def check(cpu):
+    for k in range(block_size * cpu, block_size * (cpu+1)):
+        if DES.new(struct.pack('>Q',k), DES.MODE_ECB).encrypt(pt) == ct:
+            return k
 
-for k in range(1000000):
-    print(k, end='\r')
-    if DES.new(struct.pack('>Q', k)).encrypt(pt) == ct:
+keys = Parallel(n_jobs=8)(delayed(check)(cpu) for cpu in range(cpus))
+
+for k in keys:
+    if k is not None:
+        print(k)
+        with open('answer.txt', 'w') as f:
+            f.write(str(hex(k))+'\n')
         break
