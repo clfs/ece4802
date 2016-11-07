@@ -17,7 +17,7 @@ const uint8_t bit_rev[32] = {
 
 uint8_t stob(char s)
 {
-    return (s >= 'A' && s <= 'Z') ? s - 65: s - 22;
+    return (s >= 'A') ? s - 65: s - 22;
 }
 
 char btos(uint8_t b)
@@ -28,7 +28,7 @@ char btos(uint8_t b)
 int main(void)
 {
     /* Generate a sufficiently-long LFSR sequence */
-    uint64_t lfsr = LFSR_INIT;
+    uint64_t lfsr = LFSR_INIT; // sequence
     uint64_t bit;
     uint8_t state = LFSR_INIT;
     int offset = LFSR_DEGREE;
@@ -43,13 +43,10 @@ int main(void)
     char pt_s[MSG_SYMLEN];
     uint64_t ct_b = 0;
     uint64_t pt_b;
-    uint8_t byte;
     for (int i=0; i<MSG_SYMLEN; i++) {
-        byte = stob(ct_s[i]);
-        ct_b += ((uint64_t) bit_rev[byte]) << i*SYM_BITLEN;
+        ct_b += (uint64_t) bit_rev[stob(ct_s[i])] << i*SYM_BITLEN;
         pt_b = ct_b ^ lfsr; // sub-optimal :(
-        byte = (pt_b >> (i*SYM_BITLEN)) & 0x1f;
-        pt_s[i] = btos(bit_rev[byte]);
+        pt_s[i] = btos(bit_rev[pt_b >> (i*SYM_BITLEN) & 0x1f]);
         printf("%c", pt_s[i]);
     }
     puts("");
