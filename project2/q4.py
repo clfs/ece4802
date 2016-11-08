@@ -6,24 +6,21 @@ import binascii
 import struct
 
 pt = binascii.unhexlify('48656c6c6f212121')
-#ct = binascii.unhexlify('d52bd481f21e25a1')
-mykey = 0xee
-ct = DES.new(struct.pack('>Q', mykey), DES.MODE_ECB).encrypt(pt)
+ct = binascii.unhexlify('d52bd481f21e25a1')
 
 keyspace = 1 << 32
-cpus = 8
-block_size = int(keyspace/cpus)
+n_cpus = 8
+chunk_size = int(keyspace/n_cpus)
 
 def check(cpu):
-    for k in range(block_size * cpu, block_size * (cpu+1)):
+    for k in range(chunk_size * cpu, chunk_size * (cpu+1)):
         if DES.new(struct.pack('>Q',k), DES.MODE_ECB).encrypt(pt) == ct:
             return k
 
-keys = Parallel(n_jobs=8)(delayed(check)(cpu) for cpu in range(cpus))
+keys = Parallel(n_jobs=n_cpus)(delayed(check)(cpu) for cpu in range(n_cpus))
 
 for k in keys:
     if k is not None:
-        print(k)
         with open('answer.txt', 'w') as f:
             f.write(str(hex(k))+'\n')
         break

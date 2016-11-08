@@ -45,7 +45,7 @@ int main(void)
     }
 
     /* print SAC_coef */
-    printf("i\tSAC_coef...\n");
+    printf("i\tSAC_coef:\n");
     for (i = 0; i < 6; i++) {
         printf("%d\t", i);
         for (j = 0; j < 4; j++) {
