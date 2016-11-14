@@ -1,4 +1,4 @@
-#!/usr/bin/env sage
+#!/usr/bin/env python3
 
 from Crypto.Cipher import AES
 from Crypto.Util import Counter
@@ -9,7 +9,8 @@ modes = [AES.MODE_ECB, AES.MODE_CBC, AES.MODE_CTR]
 with open('Gompei.bmp','rb') as in_file:
 
     # find size of header
-    offset = int.from_bytes(in_file.seek(10).read(4),'little')
+    in_file.seek(10)
+    offset = int.from_bytes(in_file.read(4),'little')
 
     # 3x: read data in chunks, encrypt and write to new file
     for name, mode in zip(names, modes):
@@ -18,14 +19,16 @@ with open('Gompei.bmp','rb') as in_file:
         with open('Gompei_{}.bmp'.format(name),'wb') as out_file:
 
             # separate header and content
-            header = in_file.seek(0).read(offset)
-            content = in_file.seek(offset).read()
+            in_file.seek(0)
+            header = in_file.read(offset)
+            in_file.seek(offset)
+            content = in_file.read()
             # out_file.write(header)
 
             key = b'0' * AES.block_size
             iv = key
 
-	    if mode == AES.MODE_CTR:
+            if mode == AES.MODE_CTR:
                 aes = AES.new(key, mode, iv, counter=Counter.new(128))
             else:
                 aes = AES.new(key, mode, iv)
