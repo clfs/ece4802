@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 
-import cProfile
+from timeit import default_timer as timer
 from hashlib import sha512
+
+ENABLE_TIMING = True # global; if enabled, print crack time for each password
 
 WORDLIST = [] # global; lines in dictionary.txt
 HASHLIST = [] # global; hashes for dictionary.txt
@@ -49,15 +51,21 @@ def parse(password_line):
     return PasswordDetails(rounds, salt, hash_data)
 
 def crack(password_line):
+    global ENABLE_TIMING
+    start = timer()
+    ################## Start timed block
     details = parse(password_line)
-    if details.salt == '' and rounds == 5000: # weakest policy
-        return WORDLIST[HASHLIST.index(details.hash_data)]
+    if details.salt == '' and details.rounds == 5000: # weakest policy
+        pt = '{:12}'.format(WORDLIST[HASHLIST.index(details.hash_data)])
     else: # either salted policy
         for word in WORDLIST:
             hash_attempt = my_hash(word, details.rounds, details.salt)
             if hash_attempt == details.hash_data:
-                return word
-    return "ERROR - No candidate found."
+                pt = '{:12}'.format(word); break
+    ################## End timed block
+    end = timer()
+    if ENABLE_TIMING: pt += '\t{} sec'.format(end - start)
+    return pt
 
 with open('passwords.txt', 'r') as fh:
     plaintexts = \
