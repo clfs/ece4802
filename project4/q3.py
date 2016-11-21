@@ -1,58 +1,32 @@
-### This is a template file for a simple CBCMAC for Python 3
-##
-##  Please implement the provided functions and assure that your code
-##  works correctly for the example given below
-##
-##  Name: <your name>
-##
+#!/usr/bin/python3
 
 from Crypto.Cipher import AES
 
-key = b'Sixteen byte key'
-iv  = b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
-out = b''   
-m   = b'The quick brown fox jumps over the lazy doh'
+def pad(message):
+    """Append padding to message for AES input."""
+    m_len = len(message)
+    s1_pad = b'\x80' + bytes(15 - (m_len % 8)) # single-1 padding
+    ls_pad = (m_len*8).to_bytes(8, byteorder='big') # length strengthening
+    return message + s1_pad + ls_pad
 
-""" You can use this instruction to
-    encrypt using AES.
-    cipher = AES.new(key)
-    msg = cipher.encrypt(message)
-    """
-
-
-
-def padding(message):
-    """Append padding to message in order to
-       become multiple of 16 in order to fit in
-       AES input"""
-
-    # put your code here
-    
-    return pad
-
-def CBCMACbasedOnAES(message, key):
-    """This function computes the MAC of message using key.
-       The MAC function is CBC-MAC with AES and both single-1
-       padding and length strengthening provided by the
-       padding function.
-       key must be convertible to bytes of length 16
-       message must be convertible to bytes type"""
-    
-
-    # put your code here
-    
-    return out
+def CBCMAC_AES(message, key):
+    """Compute the CBC-MAC of the message under AES."""
+    enc_message = AES.new(key, AES.MODE_CBC, bytes(16)).encrypt(pad(message))
+    return enc_message[-16:]
 
 def main():
-    CBCMACbasedOnAES(m, key)
-
-    """ Two testvectors are given below:
-    m1 =          b'The quick brown fox jumps over the lazy dog'
-    CBC-MAC1 =    b'\x94maSb\x14\x08\x15\xef<\x8c:\xbe\xb9LF'
-
-    m2 =          b'The quick brown fox jumps over the lazy doh'
-    CBC-MAC2 =    b'|K\x8b\x06\x96K#\x1d\x87\xdd\x1e\xca\xa9o\xad\x83'
-    """
+    tests = [
+        {'key': b'Sixteen byte key',
+         'msg': b'The quick brown fox jumps over the lazy dog',
+         'mac': b'\x94maSb\x14\x08\x15\xef<\x8c:\xbe\xb9LF'},
+        {'key': b'Sixteen byte key',
+         'msg': b'The quick brown fox jumps over the lazy doh',
+         'mac': b'|K\x8b\x06\x96K#\x1d\x87\xdd\x1e\xca\xa9o\xad\x83'}
+    ]
+    for t in tests:
+        assert(CBCMAC_AES(t['msg'],t['key']) == t['mac'])
+    print("Success!")
+    return
 
 if __name__ == '__main__':
     main()
