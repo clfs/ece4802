@@ -1,13 +1,21 @@
 #!/usr/bin/env python3
 
-import cProfile
+import time
+from enum import Enum
 from hashlib import sha512
 
 WORDLIST = [] # global; lines in dictionary.txt
 HASHLIST = [] # global; hashes for dictionary.txt
 
+class Policy(Enum):
+    default_rounds_no_salt      = 1
+    default_rounds_with_salt    = 2
+    custom_rounds_with_salt     = 3
+
 class PasswordDetails:
-    def __init__(self, rounds, salt, hash_data):
+    def __init__(self, policy, algid, rounds, salt, hash_data):
+        self.policy     = policy
+        self.algid      = algid
         self.rounds     = rounds
         self.salt       = salt
         self.hash_data  = hash_data
@@ -18,12 +26,14 @@ def crack_passwords(passwords_from_file):
     global HASHLIST
     with open('dictionary.txt', 'r') as fh:
         WORDLIST = [line.rstrip('\r\n') for line in fh.readlines()]
-    HASHLIST = [my_hash(word, 5000, '') for word in WORDLIST]
+    HASHLIST = [my_hash(word) for word in WORDLIST]
     plaintexts = [crack(password) for password in passwords_from_file]
     return plaintexts
 
-def my_hash(message, rounds, salt):
-    """SHA-512 hash with rounds and salt parameters."""
+def my_hash(message, rounds=None, salt=None):
+    """SHA-512 hash with optional and defaulting rounds and salt parameters."""
+    if rounds is None: rounds = 5000
+    if salt is None: salt = ''
     # first round
     digest = sha512((salt + message).encode('utf-8')).hexdigest()
     # remaining rounds
@@ -36,26 +46,32 @@ def parse(password_line):
     fields = password_line.split('$')
     # Custom rounds with salt
     if password_line.count('$') == 4:
-        (_, _, rounds, salt, hash_data) = fields
+        policy = Policy.custom_rounds_with_salt
+        (_, algid, rounds, salt, hash_data) = fields
         rounds = int(rounds.strip('rounds='))
     # Default rounds without salt
     elif '$$' in password_line:
-        (_, _, _, hash_data) = fields
-        rounds, salt = 5000, ''
+        policy = Policy.default_rounds_no_salt
+        (_, algid, _, hash_data) = fields
+        rounds = 5000
+        salt = ''
     # Default rounds with salt
     else:
-        (_, _, salt, hash_data) = fields
+        policy = Policy.default_rounds_with_salt
+        (_, algid, salt, hash_data) = fields
         rounds = 5000
-    return PasswordDetails(rounds, salt, hash_data)
+    return PasswordDetails(policy, algid, rounds, salt, hash_data)
 
 def crack(password_line):
     details = parse(password_line)
-    if details.salt == '' and rounds == 5000: # weakest policy
+    if details.policy == Policy.default_rounds_no_salt:
+        print("Found = {}".format(WORDLIST[HASHLIST.index(details.hash_data)]))
         return WORDLIST[HASHLIST.index(details.hash_data)]
-    else: # either salted policy
+    else: # either policy that includes salt
         for word in WORDLIST:
             hash_attempt = my_hash(word, details.rounds, details.salt)
             if hash_attempt == details.hash_data:
+                print("Found = {}".format(word))
                 return word
     return "ERROR - No candidate found."
 
@@ -63,4 +79,3 @@ with open('passwords.txt', 'r') as fh:
     plaintexts = \
         crack_passwords([line.rstrip('\r\n') for line in fh.readlines()])
     print('\n'.join(plaintexts))
-
