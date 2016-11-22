@@ -21,7 +21,6 @@ def crack_passwords(passwords_from_file):
     with open('dictionary.txt', 'r') as fh:
         WORDLIST = [line.rstrip('\r\n') for line in fh.readlines()]
     HASHLIST = [my_hash(word, 5000, '') for word in WORDLIST]
-    print('\n'.join(HASHLIST))
     plaintexts = [brute(password) for password in passwords_from_file]
     return plaintexts
 
