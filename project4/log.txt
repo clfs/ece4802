@@ -1,0 +1,20 @@
+Airmont     	1.96634444600204 sec
+Ansonia     	7.982376846004627 sec
+Anguilla    	6.823614074004581 sec
+Apple Grove 	7.839919405996625 sec
+Altus       	5.326477777998662 sec
+Algonquin   	3.4030003007501364e-05 sec
+Algerita    	1.2102995242457837e-05 sec
+Annandale   	1.9330000213813037e-05 sec
+Alvwood     	1.3857999874744564e-05 sec
+Allenhurst  	1.1113006621599197e-05 sec
+Ambler      	1.3826000213157386e-05 sec
+Alamance    	8.384995453525335e-06 sec
+Allen City  	1.0727999324444681e-05 sec
+Anselma     	1.762100146152079e-05 sec
+Ambridge    	1.4170997019391507e-05 sec
+Agency      	8.351534323999658 sec
+Adgateville 	7.010622478999721 sec
+Accord      	2.5236064480050118 sec
+Abeytas     	1.460132076004811 sec
+Advance     	9.291494026001601 sec
