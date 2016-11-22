@@ -49,7 +49,7 @@ def parse(line):
     return PasswordDetails(rounds, salt, hash_data)
 
 def brute(line):
-    """Return the plaintext that generates the given `password_line`."""
+    """Return the plaintext that generates the given line."""
     start = timer()
     ################## Start timed block
     details = parse(line) # minor speed-up by fetching fields only once
@@ -66,6 +66,7 @@ def brute(line):
     return pt
 
 def main():
+    """Crack all passwords in `passwords.txt` and print to STDOUT."""
     with open('passwords.txt', 'r') as fh:
         plaintexts = \
             crack_passwords([line.rstrip('\r\n') for line in fh.readlines()])
