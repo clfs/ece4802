@@ -24,7 +24,7 @@ def main():
          'mac': b'|K\x8b\x06\x96K#\x1d\x87\xdd\x1e\xca\xa9o\xad\x83'}
     ]
     for t in tests:
-        assert(CBCMAC_AES(t['msg'],t['key']) == t['mac'])
+        assert CBCMAC_AES(t['msg'], t['key']) == t['mac']
     print("Success!")
     return
 
