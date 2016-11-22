@@ -4,7 +4,7 @@ from timeit import default_timer as timer
 from binascii import hexlify
 from hashlib import sha512
 
-ENABLE_TIMING = True # global; if enabled, print crack time for each password
+ENABLE_TIMING = False # global; if enabled, print crack time for each password
 
 WORDLIST = [] # global; lines in dictionary.txt
 HASHLIST = [] # global; hashes for dictionary.txt
