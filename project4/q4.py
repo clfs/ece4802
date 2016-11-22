@@ -55,8 +55,7 @@ def brute(line):
     global ENABLE_TIMING
     start = timer()
     ################## Start timed block
-    # minor speed-up by fetching fields only once
-    details = parse(line)
+    detals = parse(line) # minor speed-up by fetching fields only once
     salt, rounds, hash_data = details.salt, details.rounds, details.hash_data
     if salt == '': # weakest policy
         pt = '{:12}'.format(WORDLIST[HASHLIST.index(hash_data)])
