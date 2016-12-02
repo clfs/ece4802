@@ -5,13 +5,14 @@ def wrapper(a, b, c, d):
     return
 
 def modexp(b, e, m):
-    wrapper('x', 'b', 'e', 'm')
     x = 1
+    wrapper('x', 'b', 'e', 'm')
+    wrapper(x, b, e, m)
     while e > 0:
-        wrapper(x, b, e, m)
         if e % 2: x = (x * b) % m
         b = (b * b) % m
         e >>= 1
+        wrapper(x, b, e, m)
     return x
 
 def main():
