@@ -16,6 +16,6 @@ ka = pow(gb,a,p)                # Alice uses Bob's `gb` to compute the key
 kb = pow(ga,b,p)                # Bob uses Alice's `ga` to compute the key
 assert ka == kb                 # Alice and Bob now have the same key!
 
-# no .decode() method in python3, so weird .to_bytes() instead
-key = hashlib.sha224(ka.to_bytes((ka.bit_length() + 7) // 8, 'big')).hexdigest()
+# ka is maximally 1024 bits, so convert to 128 bytes
+key = hashlib.sha224(ka.to_bytes(128, 'big')).hexdigest()
 print(key)
