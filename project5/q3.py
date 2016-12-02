@@ -8,8 +8,8 @@ import binascii
 random.seed(12345)              # Seed the PRNG
 p = gensafeprime.generate(1024) # Generate a safe prime `p`
 g = random.randint(2,p-2)       # Alice and Bob agree on a base `g`
-a = random.randint(1,2**1024)   # Alice selects their `a`
-b = random.randint(1,2**1024)   # Bob selects their `b`
+a = random.randint(2,p-2)       # Alice selects their `a`
+b = random.randint(2,p-2)       # Bob selects their `b`
 ga = pow(g,a,p)                 # Alice computes g^a mod p
 gb = pow(g,b,p)                 # Bob computes g^b mod p
 ka = pow(gb,a,p)                # Alice uses Bob's `gb` to compute the key
