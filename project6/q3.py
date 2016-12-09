@@ -1,107 +1,54 @@
 #!/usr/bin/env python3
 
 import unittest
-from Crypto import Random
-from Crypto.Util.number import getPrime
+from Crypto.Random import random
+from Crypto.Random.random import randint
 from Crypto.PublicKey import RSA
 
-# problem 3 parameters
-PADDED_MSG_LEN_BITS     = 256
-PADDED_MSG_LEN_BYTES    = PADDED_MSG_LEN_BITS // 8
-MOD_LEN_BITS            = 1024
-MOD_LEN_BYTES           = MOD_LEN_BITS // 8
+MLEN = 256
+NLEN = 1024
+RLEN = NLEN-MLEN-1
 
-random = Random.new() # set up new RNG
-
-class PublicKey():
-    def __init__(self, n, e):
-        self.n = n
-        self.e = e
-
-class PrivateKey():
-    def __init__(self, n, d):
-        self.n = n
-        self.d = d
+def _mod_mult_inv(x, modulo):
+    t1, t2, r1, r2 = 0, 1, modulo, x
+    while r2 != 0:
+        q = (-1 if (r1<0)!=(r2<0) else 1) * (r1 // abs(r2))
+        t1, t2, r1, r2 = t2, t1-q*t2, r2, r1-q*r2
+    return (t1 if t1>0 else t1+modulo)
 
 class PaddedRSA():
-    """
-    Implements padded RSA as introduced in class.
-
-    Public methods:
-    .enc()      Encrypt a message
-    .dec()      Decrypt a message
-
-    Private methods:
-    ._gen()     Generate a public key and private key
-    ._pad()     Pad a message prior to encryption
-    ._unpad()   Unpad a message after decryption
-    """
-
-    def __init__(self, msglen, modlen):
-        """
-        .msglen Final message `m` length in bits
-        .modlen Product of primes `N` length in bits
-        .kpub   Public key
-        .kprv   Private key
-        """
-        self.msglen = msglen
-        self.modlen = modlen
-        self.kpub, self.kprv = self._gen()
+    def __init__(self):
+        self.N, self.e, self.d = self.gen()
     
-    def enc(self, pt):
-        padpt = self._pad(pt)
-        return pow(padpt, self.kpub.e, self.kpub.n)
-
-    def dec(self, ct):
-        padpt = pow(ct, self.kprv.d, self.kprv.n)
-        return self._unpad(padpt)
-
-    def _mod_mult_inv(self, x, modulo):
-        def _div(n, d):
-            return (-1 if (n < 0) != (d < 0) else 1) * (n // abs(d))
-        t1, t2, r1, r2 = 0, 1, modulo, x
-        while r2 != 0:
-            q = _div(r1, r2)
-            t1, t2, r1, r2 = t2, t1-q*t2, r2, r1-q*r2
-        if r1 > 1:
-            raise ValueError('Not invertible')
-        if t1 < 0:
-            t1 += modulo
-        return t1
-
-    def _gen(self):
-        p = getPrime(self.modlen // 2, random.read)
-        q = getPrime(self.modlen // 2, random.read)
-        n = p*q
+    def gen(self):
+        rsa = RSA.generate(1024)
+        p = getattr(rsa.key, 'p')
+        q = getattr(rsa.key, 'q')
+        N = p*q
         e = 2**16 + 1 # assume phi > e, usually
-        d = self._mod_mult_inv(e, (p-1)*(q-1))
-        return PublicKey(n, e), PrivateKey(n, d)
+        d = _mod_mult_inv(e, (p-1)*(q-1))
+        return N, e, d
 
-    def _pad(self, msg):
-        padlen = self.modlen // 8 - len(msg)
-        return int.from_bytes(random.read(padlen) + msg, 'big')
+    def enc(self, m):
+        r = randint(0, 2**RLEN)
+        m2 = (r << MLEN) | m
+        return pow(m2, self.e, self.N)
 
-    def _unpad(self, msg):
-        return msg.to_bytes(self.modlen // 8 + 1, 'big')[-self.msglen // 8:]
+    def dec(self, c):
+        m2 = pow(c, self.d, self.N)
+        return m2 & (2**MLEN - 1)
 
 class Tests(unittest.TestCase):
-    def _rand_msg(self): # TODO fix to return messages of diff lengths
-        #return random.read(256 // 8)
-        return random.read(30)
+    def _rand_msg(self):
+        return randint(0, 2**(MLEN//8))
 
     def test_enc_and_dec(self):
         """Encrypt and decrypt using own RSA"""
-        msg = self._rand_msg()          # generate random message
-        rsa = PaddedRSA(256,1024)       # initialize RSA class
-        ct = rsa.enc(msg)               # encrypt the message
-        pt = rsa.dec(ct)                # decrypt the message
-        self.assertEqual(msg, pt)       # message should be unchanged
-
-    def test_pad_and_unpad(self):
-        """Pad then unpad the message"""
-        msg = self._rand_msg()          # generate random message
-        rsa = PaddedRSA(256,1024)       # initialize RSA class
-        self.assertEqual(msg, rsa._unpad(rsa._pad(msg))) # message should be unchanged
+        m = self._rand_msg()    # generate random message
+        rsa = PaddedRSA()       # initialize RSA class
+        c = rsa.enc(m)          # encrypt the message
+        m2 = rsa.dec(c)         # decrypt the message
+        self.assertEqual(m, m2) # message should be unchanged
 
 if __name__ == '__main__':
     unittest.main()
